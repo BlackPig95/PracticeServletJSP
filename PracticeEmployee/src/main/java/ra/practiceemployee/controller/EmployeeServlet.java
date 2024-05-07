@@ -44,13 +44,7 @@ public class EmployeeServlet extends HttpServlet
                     request.getRequestDispatcher("/employeeview/edit.jsp").forward(request, response);
                     break;
                 case "DELETE":
-                    try
-                    {
-                        employeeManagement.deleteEmployeeById(Integer.parseInt(request.getParameter("id")));
-                    } catch (SQLException e)
-                    {
-                        throw new RuntimeException(e);
-                    }
+                    employeeManagement.deleteEmployeeById(Integer.parseInt(request.getParameter("id")));
                     response.sendRedirect("/EmployeeServlet?action=LIST");
                     break;
             }

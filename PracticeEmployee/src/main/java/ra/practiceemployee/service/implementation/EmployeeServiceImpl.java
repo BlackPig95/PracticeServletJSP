@@ -74,7 +74,7 @@ public class EmployeeServiceImpl implements IEmployeeService
     }
 
     @Override
-    public void deleteEmployeeById(Integer id) throws SQLException
+    public void deleteEmployeeById(Integer id)
     {
         employeeDao.deleteEmployeeById(id);
     }

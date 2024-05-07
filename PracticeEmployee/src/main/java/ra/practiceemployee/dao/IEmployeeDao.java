@@ -16,5 +16,5 @@ public interface IEmployeeDao
 
     void saveEmployee(Employee employee);
 
-    void deleteEmployeeById(Integer id) throws SQLException;
+    void deleteEmployeeById(Integer id);
 }

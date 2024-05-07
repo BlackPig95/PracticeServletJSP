@@ -108,11 +108,21 @@ public class EmployeeDaoImpl implements IEmployeeDao
     }
 
     @Override
-    public void deleteEmployeeById(Integer id) throws SQLException
+    public void deleteEmployeeById(Integer id)
     {
         Connection connection = ConnectDB.getConnection();
-        PreparedStatement prepare = connection.prepareStatement("delete from employee where employee.id = ?");
-        prepare.setInt(1, id);
-        prepare.executeUpdate();
+        PreparedStatement prepare = null;
+        try
+        {
+            prepare = connection.prepareStatement("delete from employee where employee.id = ?");
+            prepare.setInt(1, id);
+            prepare.executeUpdate();
+        } catch (SQLException e)
+        {
+            throw new RuntimeException(e);
+        } finally
+        {
+            ConnectDB.closeConnection(connection);
+        }
     }
 }

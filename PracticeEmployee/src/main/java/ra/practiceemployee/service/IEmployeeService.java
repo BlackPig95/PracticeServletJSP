@@ -16,5 +16,5 @@ public interface IEmployeeService
 
     void saveEmployee(EmployeeDTO employeeDTO, ServletContext context) throws IOException;
 
-    void deleteEmployeeById(Integer id) throws SQLException;
+    void deleteEmployeeById(Integer id);
 }
