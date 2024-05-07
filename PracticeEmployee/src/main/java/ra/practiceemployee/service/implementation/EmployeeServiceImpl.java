@@ -47,10 +47,10 @@ public class EmployeeServiceImpl implements IEmployeeService
         }
         if (employeeDTO.getId() == null)
         {   //Default avatar
-            employeeModel.setAvatar("D:\\Rikkei_Module3_SQL\\BaiTapJSPServlet\\PracticeEmployee\\src\\main\\webapp\\uploads\\default_avatar.jpg");
+            employeeModel.setAvatar("https://as1.ftcdn.net/v2/jpg/03/46/83/96/1000_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg");
         } else
         {   //Set lại avatar hiện tại nếu là hành động update
-            String updateAvatar = employeeDTO.getFileAvatar().getSubmittedFileName();
+            String updateAvatar = employeeDao.findEmployeeById(employeeDTO.getId()).getAvatar();
             employeeModel.setAvatar(updateAvatar);
         }
         //Trong trường hợp có tải lên file mới thì lấy hình ảnh từ file mới
@@ -58,7 +58,7 @@ public class EmployeeServiceImpl implements IEmployeeService
         if (file != null && file.getSize() != 0)
         {
             employeeModel.setAvatar("/uploads/" + file.getSubmittedFileName());
-            file.write(path + File.separator + file.getSubmittedFileName());
+//            file.write(path + File.separator + file.getSubmittedFileName());
 //            void write(String fileName)
 //    throws IOException
 //            A convenience method to write this uploaded item to disk.
@@ -68,7 +68,7 @@ public class EmployeeServiceImpl implements IEmployeeService
 //            Throws:
 //            IOException - if an error occurs.
             //=>2nd part.write call may fail
-//            file.write(permanentFolder + File.separator + file.getSubmittedFileName());
+            file.write(permanentFolder + File.separator + file.getSubmittedFileName());
         }
         employeeDao.saveEmployee(employeeModel);
     }

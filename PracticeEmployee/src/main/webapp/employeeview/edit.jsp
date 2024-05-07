@@ -27,7 +27,7 @@
                 <input type="radio" ${edit.sex?"checked":""} name="sex" value="true"/><span>Nam</span>
                 <input type="radio" ${edit.sex?"":"checked"} name="sex" value="false"/><span>Nữ</span>
             </label><br/>
-            <label>Ảnh đại diện: <input type="file" name="avatar" value="${edit.avatar}"/> </label><br/>
+            <label>Ảnh đại diện: <input type="file" name="avatar"/></label><br/>
             <input type="submit" name="action" value="EDIT"/><br/>
         </form>
     </c:otherwise>
