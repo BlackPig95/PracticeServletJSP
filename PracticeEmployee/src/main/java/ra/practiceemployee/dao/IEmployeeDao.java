@@ -5,6 +5,7 @@ import ra.practiceemployee.model.Employee;
 
 import javax.servlet.ServletContext;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 
 public interface IEmployeeDao
@@ -15,5 +16,5 @@ public interface IEmployeeDao
 
     void saveEmployee(Employee employee);
 
-    void deleteEmployeeById(Integer id);
+    void deleteEmployeeById(Integer id) throws SQLException;
 }

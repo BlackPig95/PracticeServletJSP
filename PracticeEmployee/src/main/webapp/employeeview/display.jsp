@@ -34,8 +34,8 @@
             <td>${employee.sex?"Nam":"Nữ"}</td>
             <td><img src="<%=request.getContextPath()%>${employee.avatar}" alt="Ảnh" width="100" height="100"
                      style="object-fit: cover"/></td>
-            <td><a href="">Sửa</a></td>
-            <td><a href="">Xóa</a></td>
+            <td><a href="/EmployeeServlet?action=EDIT&id=${employee.id}">Sửa</a></td>
+            <td><a href="/EmployeeServlet?action=DELETE&id=${employee.id}">Xóa</a></td>
         </tr>
     </c:forEach>
     </tbody>

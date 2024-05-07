@@ -8,6 +8,7 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
@@ -38,6 +39,20 @@ public class EmployeeServlet extends HttpServlet
                     request.setAttribute("list", employeeManagement.displayAll());
                     request.getRequestDispatcher("/employeeview/display.jsp").forward(request, response);
                     break;
+                case "EDIT":
+                    request.setAttribute("edit", employeeManagement.findEmployeeById(Integer.parseInt(request.getParameter("id"))));
+                    request.getRequestDispatcher("/employeeview/edit.jsp").forward(request, response);
+                    break;
+                case "DELETE":
+                    try
+                    {
+                        employeeManagement.deleteEmployeeById(Integer.parseInt(request.getParameter("id")));
+                    } catch (SQLException e)
+                    {
+                        throw new RuntimeException(e);
+                    }
+                    response.sendRedirect("/EmployeeServlet?action=LIST");
+                    break;
             }
         }
     }
@@ -52,22 +67,37 @@ public class EmployeeServlet extends HttpServlet
             switch (action)
             {
                 case "ADD":
-                    String name = request.getParameter("name");
-                    String dob = request.getParameter("dob");
-                    String sex = request.getParameter("sex");
-                    Part fileAvatar = request.getPart("avatar");
-                    try
-                    {
-                        EmployeeDTO employeeDTO = new EmployeeDTO(null, name, sdf.parse(dob), Boolean.parseBoolean(sex), fileAvatar);
-                        employeeManagement.saveEmployee(employeeDTO, getServletContext());
-                    } catch (ParseException e)
-                    {
-                        throw new RuntimeException(e);
-                    }
-                    //Redirect để cập nhật lại danh sách sau khi thêm mới
-                    response.sendRedirect("/EmployeeServlet?action=LIST");
+                    setEmployeeInfo(request, response, true);
+                    break;
+                case "EDIT":
+                    setEmployeeInfo(request, response, false);
                     break;
             }
         }
+    }
+
+    private void setEmployeeInfo(HttpServletRequest request, HttpServletResponse response, boolean isAdding) throws ServletException, IOException
+    {
+        String name = request.getParameter("name");
+        String dob = request.getParameter("dob");
+        String sex = request.getParameter("sex");
+        Part fileAvatar = request.getPart("avatar");
+        try
+        {
+            EmployeeDTO employeeDTO = null;
+            if (isAdding)
+            {
+                employeeDTO = new EmployeeDTO(null, name, sdf.parse(dob), Boolean.parseBoolean(sex), fileAvatar);
+            } else
+            {
+                employeeDTO = new EmployeeDTO(Integer.parseInt(request.getParameter("id")), name, sdf.parse(dob), Boolean.parseBoolean(sex), fileAvatar);
+            }
+            employeeManagement.saveEmployee(employeeDTO, getServletContext());
+        } catch (ParseException e)
+        {
+            throw new RuntimeException(e);
+        }
+        //Redirect để cập nhật lại danh sách sau khi thêm mới
+        response.sendRedirect("/EmployeeServlet?action=LIST");
     }
 }
